@@ -10,7 +10,7 @@ pipeline {
         GIT_USER = 'SaiBadri'
         GIT_CREDENTIALS_ID = 'GitHub_PAT2' // Jenkins credential ID for GitHub PAT
         GIT_URL = 'https://github.com/SaiBadri/java-hello-world-webapp.git'
-        GITHUB_PAT = credentials('GitHub_PAT2') // Fetch the GitHub PAT from Jenkins credentials
+        // GITHUB_PAT = credentials('GitHub_PAT2') // Fetch the GitHub PAT from Jenkins credentials
 
         MAVEN_SETTINGS_CONFIG_ID = 'maven-settings' // Config ID for Maven settings.xml in Jenkins
     //     GCP_VM_CONFIG = 'tomcat-server01' // SSH Publisher configuration name
@@ -30,7 +30,7 @@ pipeline {
 
         stage('Build Maven Project') {
             steps {
-                withCredentials([string(credentialsId: env.GIT_CREDENTIALS_ID, variable: 'GITHUB_PAT')]) {
+                withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
                     configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
                         sh 'mvn clean install -s $MAVEN_SETTINGS'
                     }
@@ -40,7 +40,7 @@ pipeline {
 
         stage('Deploy to GitHub Packages') {
             steps {
-                withCredentials([string(credentialsId: env.GIT_CREDENTIALS_ID, variable: 'GITHUB_PAT')]) {
+                withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
                     configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
                         sh 'mvn deploy -s $MAVEN_SETTINGS'
                     }
