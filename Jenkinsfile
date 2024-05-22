@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'master', credentialsId: 'GitHub_PAT', url: 'https://github.com/SaiBadri/java-hello-world-webapp.git'
+                git branch: 'master', credentialsId: 'GitHub_PAT2', url: 'https://github.com/SaiBadri/java-hello-world-webapp.git'
             }
         }
         stage('Maven Build') {
@@ -23,14 +23,6 @@ pipeline {
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'tomcat-server01', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/', remoteDirectorySDF: false, removePrefix: '/target', sourceFiles: '**/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
-
-
-
-
-
-
-
-
     }
 }
 
@@ -61,7 +53,7 @@ pipeline {
 //         GCP_VM = '35.244.31.178'
 //         SSH_USER = 'badri'
 //         SSH_KEY = '/Users/badri/.ssh/id_rsa'
-//         JAR_FILE = '/Users/badri/Documents/GitHub_Projects/java-hello-world-with-maven/target'
+//         WAR_FILE = '/Users/badri/Documents/GitHub_Projects/java-hello-world-with-maven/target'
 //         DEPLOY_PATH = '/opt/tomcat/apache-tomcat-10.1.24/webapps'
 //     }
 
@@ -75,19 +67,19 @@ pipeline {
 //             }
 //         }
 
-//         stage('Build JAR') {
+//         stage('Build WAR') {
 //             steps {
 //                 sh 'mvn clean package'
 //             }
 //         }
 
-//         // stage('Push JAR to GitHub') {
+//         // stage('Push WAR to GitHub') {
 //         //     steps {
 //         //         script {
-//         //             // Commit and push the JAR file to the GitHub repository
+//         //             // Commit and push the WAR file to the GitHub repository
 //         //             sh """
-//         //                 git add ${JAR_FILE}
-//         //                 git commit -m 'Add JAR file'
+//         //                 git add ${WAR_FILE}
+//         //                 git commit -m 'Add WAR file'
 //         //                 git push origin ${BRANCH}
 //         //             """
 //         //         }
@@ -97,9 +89,9 @@ pipeline {
 //         stage('Deploy to GCP VM') {
 //             steps {
 //                 script {
-//                     // Copy the JAR file to the GCP VM using SCP
+//                     // Copy the WAR file to the GCP VM using SCP
 //                     sh """
-//                         scp -i ${SSH_KEY} ${JAR_FILE} ${SSH_USER}@${GCP_VM}:${DEPLOY_PATH}
+//                         scp -i ${SSH_KEY} ${WAR_FILE} ${SSH_USER}@${GCP_VM}:${DEPLOY_PATH}
 //                     """
                     
 //                     // Restart the Tomcat server on the GCP VM
