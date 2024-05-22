@@ -2,8 +2,8 @@
   <servers>
     <server>
       <id>github</id>
-      <username>SaiBadri</username>
-      <password>${env.GitHub_PAT2}</password>
+      <username>${env.GIT_USER}</username>
+      <password>${env.GIT_CREDENTIALS_ID}</password>
     </server>
   </servers>
 </settings>
