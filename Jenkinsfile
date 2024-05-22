@@ -10,7 +10,7 @@ pipeline {
         GIT_USER = 'SaiBadri'
         GIT_URL = 'https://github.com/SaiBadri/java-hello-world-webapp.git'
         GITHUB_PAT = credentials('GIT_PAT_4') // Fetch the GitHub PAT from Jenkins credentials
-        MAVEN_SETTINGS_CONFIG_ID = 'maven-settings' // Config ID for Maven settings.xml in Jenkins
+        MAVEN_SETTINGS_CONFIG_ID = 'settings' // Config ID for Maven settings.xml in Jenkins
     //     GCP_VM_CONFIG = 'tomcat-server01' // SSH Publisher configuration name
     //     ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
     }
