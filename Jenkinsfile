@@ -5,16 +5,37 @@ pipeline {
              maven 'maven'
              jdk 'java'
         }
-        
+    
+    environment {
+        GIT_CREDENTIALS_ID = 'GitHub_PAT2' // Jenkins credential ID for GitHub PAT
+        GIT_REPO_URL = 'https://github.com/SaiBadri/java-hello-world-webapp.git'
+        MAVEN_SETTINGS_CONFIG_ID = 'maven-settings' // Config ID for Maven settings.xml in Jenkins
+        GCP_VM_CONFIG = 'tomcat-server01' // SSH Publisher configuration name
+        ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
+    }
+
+    triggers {
+        githubPullRequest commentTrigger('^/build', notifyEveryCommit: false)
+    }
+    
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: "${env.BRANCH_NAME}", credentialsId: 'GitHub_PAT2', url: 'https://github.com/SaiBadri/java-hello-world-webapp.git'
+                git branch: "${env.BRANCH_NAME}", credentialsId: 'GitHub_PAT2', url: '${env.GIT_URL}'
             }
         }
         stage('Maven Build') {
             steps {
-                sh 'mvn clean install'
+                configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
+                    sh 'mvn clean install -s $MAVEN_SETTINGS'
+            }
+        }
+
+        stage('Deploy to GitHub Package') {
+            steps {
+                configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
+                    sh 'mvn deploy -s $MAVEN_SETTINGS'
+                }
             }
         }
 
