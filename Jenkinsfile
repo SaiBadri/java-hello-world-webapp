@@ -15,9 +15,9 @@ pipeline {
     //     ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
     }
 
-    triggers {
-        githubPullRequest commentTrigger('^/build', notifyEveryCommit: false)
-    }
+    // triggers {
+    //     githubPullRequest commentTrigger('^/build', notifyEveryCommit: false)
+    // }
     
     stages {
         stage('Git Checkout') {
