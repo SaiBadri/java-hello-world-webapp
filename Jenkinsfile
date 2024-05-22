@@ -29,21 +29,21 @@ pipeline {
 
         stage('Build Maven Project') {
             steps {
-                // withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
-                //     configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
+                withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
+                    configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
                         sh 'mvn clean install'
-                //     }
-                // }
+                    }
+                }
             }
         }
 
         stage('Deploy to GitHub Packages') {
             steps {
-                // withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
-                //     configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
+                withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
+                    configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
                         sh 'mvn deploy'
-                //     }
-                // }
+                    }
+                }
             }
         }
 
