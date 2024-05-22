@@ -1,9 +1,0 @@
-<settings>
-  <servers>
-    <server>
-      <id>github</id>
-      <username>${env.GIT_USER}</username>
-      <password>${env.GITHUB_PAT}</password>
-    </server>
-  </servers>
-</settings>
