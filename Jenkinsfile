@@ -9,7 +9,7 @@ pipeline {
     environment {
         GIT_USER = 'SaiBadri'
         GIT_URL = 'https://github.com/SaiBadri/java-hello-world-webapp.git'
-        GITHUB_PAT = credentials('id:GitHub_PAT2') // Fetch the GitHub PAT from Jenkins credentials
+        GITHUB_PAT = credentials('id:GitHub_PAT') // Fetch the GitHub PAT from Jenkins credentials
         MAVEN_SETTINGS_CONFIG_ID = 'maven-settings' // Config ID for Maven settings.xml in Jenkins
     //     GCP_VM_CONFIG = 'tomcat-server01' // SSH Publisher configuration name
     //     ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
@@ -29,9 +29,9 @@ pipeline {
 
         stage('Build Maven Project') {
             steps {
-                withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
+                withCredentials([string(credentialsId: 'GitHub_PAT', variable: 'GITHUB_PAT')]) {
                     configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn clean install'
+                        sh 'mvn clean install -s $MAVEN_SETTINGS'
                     }
                 }
             }
@@ -39,9 +39,9 @@ pipeline {
 
         stage('Deploy to GitHub Packages') {
             steps {
-                withCredentials([string(credentialsId: 'GitHub_PAT2', variable: 'GITHUB_PAT')]) {
+                withCredentials([string(credentialsId: 'GitHub_PAT', variable: 'GITHUB_PAT')]) {
                     configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn deploy'
+                        sh 'mvn deploy -s $MAVEN_SETTINGS'
                     }
                 }
             }
