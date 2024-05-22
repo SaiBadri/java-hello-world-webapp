@@ -20,7 +20,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: "${env.BRANCH_NAME}", credentialsId: 'GitHub_PAT2', url: "${env.GIT_URL}"
+                git branch: "${env.BRANCH_NAME}", credentialsId: "${env.GitHub_PAT2}", url: "${env.GIT_URL}"
             }
         }
         stage('Maven Build') {
