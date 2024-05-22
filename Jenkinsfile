@@ -6,12 +6,12 @@ pipeline {
              jdk 'java'
         }
     
-    environment {
+    // environment {
         
-        MAVEN_SETTINGS_CONFIG_ID = 'maven-settings' // Config ID for Maven settings.xml in Jenkins
-        GCP_VM_CONFIG = 'tomcat-server01' // SSH Publisher configuration name
-        ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
-    }
+    //     MAVEN_SETTINGS_CONFIG_ID = 'maven-settings' // Config ID for Maven settings.xml in Jenkins
+    //     GCP_VM_CONFIG = 'tomcat-server01' // SSH Publisher configuration name
+    //     ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
+    // }
 
     triggers {
         githubPullRequest commentTrigger('^/build', notifyEveryCommit: false)
@@ -25,16 +25,16 @@ pipeline {
         }
         stage('Maven Build') {
             steps {
-                configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
+                // configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
                     sh 'mvn clean install -s $MAVEN_SETTINGS'
-            }
+            // }
         }
 
         stage('Deploy to GitHub Package') {
             steps {
-                configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
+                // configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, variable: 'MAVEN_SETTINGS')]) {
                     sh 'mvn deploy -s $MAVEN_SETTINGS'
-                }
+                // }
             }
         }
 
