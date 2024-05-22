@@ -17,14 +17,14 @@ pipeline {
     //     ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
     }
 
-    triggers {
-        githubPullRequest commentTrigger('^/build', notifyEveryCommit: false)
-    }
+    // triggers {
+    //     githubPullRequest commentTrigger('^/build', notifyEveryCommit: false)
+    // }
     
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: "${env.BRANCH_NAME}", credentialsId: env.GIT_CREDENTIALS_ID, url: env.GIT_URL
+                checkout scmGit(branches: [[name: '**']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHub_PAT2', url: 'https://github.com/SaiBadri/java-hello-world-webapp.git']])
             }
         }
 
