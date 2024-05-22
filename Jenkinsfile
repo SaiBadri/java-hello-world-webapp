@@ -62,6 +62,7 @@ pipeline {
 //             steps {
 //                 script {
 //                     // Checkout the code from the feature branch
+                        // git branch: "${env.BRANCH_NAME}", url: 'https://github.com/your-username/your-repo.git' 
 //                     git branch: "${BRANCH}", url: "${REPO_URL}"
 //                 }
 //             }
