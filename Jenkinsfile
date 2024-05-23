@@ -22,7 +22,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: "${env.BRANCH_NAME}", credentialsId: 'GitHub_PAT2', url: 'https://github.com/SaiBadri/java-hello-world-webapp.git'
+                git branch: "${env.BRANCH_NAME}", credentialsId: 'GitHub_PAT2', url: "${env.GIT_URL}"
                 // checkout scmGit(branches: [[name: '**']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHub_PAT2', url: 'https://github.com/SaiBadri/java-hello-world-webapp.git']])
             }
         }
@@ -30,9 +30,9 @@ pipeline {
         stage('Build Maven Project') {
             steps {
                 withCredentials([string(credentialsId: 'GIT_PAT_4', variable: 'GITHUB_PAT')]) {
-                    configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, source: 'https://github.com/SaiBadri/java-hello-world-webapp/blob/dev/settings.xml', variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn clean install -s $MAVEN_SETTINGS'
-                    }
+                    // configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, source: 'https://github.com/SaiBadri/java-hello-world-webapp/blob/dev/settings.xml', variable: 'MAVEN_SETTINGS')]) {
+                        sh 'mvn clean install -s settings.xml'
+                    // }
                 }
             }
         }
@@ -40,9 +40,9 @@ pipeline {
         stage('Deploy to GitHub Packages') {
             steps {
                 withCredentials([string(credentialsId: 'GIT_PAT_4', variable: 'GITHUB_PAT')]) {
-                    configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, source: 'https://github.com/SaiBadri/java-hello-world-webapp/blob/dev/settings.xml', variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn deploy -s $MAVEN_SETTINGS'
-                    }
+                    // configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, source: 'https://github.com/SaiBadri/java-hello-world-webapp/blob/dev/settings.xml', variable: 'MAVEN_SETTINGS')]) {
+                        sh 'mvn deploy -s settings.xml'
+                    // }
                 }
             }
         }
