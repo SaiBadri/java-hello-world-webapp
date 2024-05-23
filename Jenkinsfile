@@ -9,8 +9,8 @@ pipeline {
     environment {
         GIT_USER = 'SaiBadri'
         GIT_URL = 'https://github.com/SaiBadri/java-hello-world-webapp.git'
-        GITHUB_PAT = credentials('GIT_PAT_4') // Fetch the GitHub PAT from Jenkins credentials
-        MAVEN_SETTINGS_CONFIG_ID = 'settings' // Config ID for Maven settings.xml in Jenkins
+        GITHUB_PAT = credentials('GIT_PAT_4') 
+        MAVEN_SETTINGS_CONFIG_ID = 'settings' 
     }
 
        
