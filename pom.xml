@@ -18,4 +18,10 @@
   <build>
     <finalName>java-hello-world</finalName>
   </build>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/SaiBadri/java-hello-world-webapp</url>
+    </repository>
+  </distributionManagement>
 </project>
