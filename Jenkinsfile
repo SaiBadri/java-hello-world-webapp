@@ -11,14 +11,9 @@ pipeline {
         GIT_URL = 'https://github.com/SaiBadri/java-hello-world-webapp.git'
         GITHUB_PAT = credentials('GIT_PAT_4') // Fetch the GitHub PAT from Jenkins credentials
         MAVEN_SETTINGS_CONFIG_ID = 'settings' // Config ID for Maven settings.xml in Jenkins
-    //     GCP_VM_CONFIG = 'tomcat-server01' // SSH Publisher configuration name
-    //     ARTIFACT_PATH = '/Users/badri/.m2/repository/org/cloudifysource/examples/java-hello-world-webapp/1.0-SNAPSHOT/java-hello-world-webapp-1.0-SNAPSHOT.war'
     }
 
-    // triggers {
-    //     githubPullRequest commentTrigger('^/build', notifyEveryCommit: false)
-    // }
-    
+       
     stages {
         stage('Git Checkout') {
             steps {
@@ -29,10 +24,8 @@ pipeline {
 
         stage('Build Maven Project') {
             steps {
-                withCredentials([string(credentialsId: 'GIT_PAT_4', variable: 'GITHUB_PAT')]) {
-                    // configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, source: 'https://github.com/SaiBadri/java-hello-world-webapp/blob/dev/settings.xml', variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn clean install -s settings.xml'
-                    // }
+                withCredentials([string(credentialsId: 'GIT_PAT_4', variable: 'GITHUB_PAT')]) {                    
+                    sh 'mvn clean install -s settings.xml'
                 }
             }
         }
@@ -40,9 +33,7 @@ pipeline {
         stage('Deploy to GitHub Packages') {
             steps {
                 withCredentials([string(credentialsId: 'GIT_PAT_4', variable: 'GITHUB_PAT')]) {
-                    // configFileProvider([configFile(fileId: env.MAVEN_SETTINGS_CONFIG_ID, source: 'https://github.com/SaiBadri/java-hello-world-webapp/blob/dev/settings.xml', variable: 'MAVEN_SETTINGS')]) {
-                        sh 'mvn deploy -s settings.xml'
-                    // }
+                    sh 'mvn deploy -s settings.xml'
                 }
             }
         }
@@ -54,4 +45,3 @@ pipeline {
         }
     }
 }
-
